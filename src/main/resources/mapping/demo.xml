@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daicy.military.dao.DemoDao">
+    <resultMap id="demo" type="com.daicy.military.model.DemoModel">
+        <result column="id" property="id"></result>
+        <result column="name" property="name"></result>
+        <result column="phone" property="phone"></result>
+        <result column="extra" property="extra" javaType="java.util.Map" jdbcType="VARCHAR" typeHandler="com.daicy.military.model.handler.MapTypeHandler"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
+
+    <select id="get" parameterType="java.lang.String" resultMap="demo">
+        select id,name,phone,create_time,update_time from demo where 1=1
+        <if test="_parameter != null and _parameter !='' ">
+            and id = #{_parameter}
+        </if>
+    </select>
+
+
+    <select id="findByPage" parameterType="com.daicy.military.core.Request" resultMap="demo">
+        select id,name,phone,create_time,update_time from demo where 1=1
+
+        <if test="model !=null and model.name != null">
+            and name like CONCAT('%',#{model.name},'%')
+        </if>
+
+        <if test="model !=null and model.phone != null">
+            and phone=#{model.phone}
+        </if>
+        <if test="conditions !=null and conditions.createTimeStart != null">
+            <![CDATA[ and create_time>=#{conditions.createTimeStart}]]>
+        </if>
+        <if test="conditions !=null and conditions.createTimeEnd != null">
+            <![CDATA[ and create_time<#{conditions.createTimeEnd}]]>
+        </if>
+
+        <if test="orderBy !=null">
+            order by ${orderBy}
+        </if>
+
+    </select>
+
+
+    <insert id="save" parameterType="com.daicy.military.model.DemoModel">
+        insert into demo (id,name,phone,extra,create_time)
+        values (#{id},#{name},#{phone},#{extra,jdbcType=VARCHAR, typeHandler=com.daicy.military.model.handler.MapTypeHandler},#{createTime})
+    </insert>
+
+
+    <update id="update" parameterType="com.daicy.military.model.DemoModel">
+        update demo set
+        <if test="name != null">
+            name=#{name},
+        </if>
+
+        <if test="phone != null">
+            phone=#{phone},
+        </if>
+
+        <if test="updateTime != null">
+            update_time=#{updateTime}
+        </if>
+        where id=#{id}
+    </update>
+
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from  demo
+        where id = #{id}
+    </delete>
+
+</mapper>

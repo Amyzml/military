@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.daicy.military.dao.AgencyMapper" >
+  <resultMap id="BaseResultMap" type="com.daicy.military.model.Agency" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="VARCHAR" />
+    <result column="militaryName" property="militaryName" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="imgPath" property="imgPath" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="link" property="link" jdbcType="VARCHAR" />
+    <result column="countNum" property="countNum" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, num, militaryName, level, imgPath, introduction, link, countNum, status, sort, 
+    createTime, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_agency
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="findBySort" resultType="com.daicy.military.model.Agency">
+    select
+    <include refid="Base_Column_List" />
+    from m_agency
+    where sort = #{sort,jdbcType=INTEGER} and level =#{level,jdbcType=VARCHAR}
+  </select>
+  <select id="findAll" resultType="com.daicy.military.model.Agency">
+    select
+    <include refid="Base_Column_List" />
+    from m_agency
+  </select>
+  <select id="findAllBylevel" resultType="com.daicy.military.model.Agency">
+    select
+    <include refid="Base_Column_List" />
+    from m_agency where level like CONCAT(CONCAT('%',#{level}),'%')
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from m_agency
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.daicy.military.model.Agency" >
+    insert into m_agency (id, num, militaryName,
+      level, imgPath, introduction, 
+      link, countNum, status,
+      sort, createTime, updateTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{num,jdbcType=VARCHAR}, #{militaryName,jdbcType=VARCHAR},
+      #{level,jdbcType=VARCHAR}, #{imgPath,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR},
+      #{link,jdbcType=VARCHAR}, #{countNum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+      #{sort,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.daicy.military.model.Agency" >
+    insert into m_agency
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="militaryName != null" >
+        militaryName,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="imgPath != null" >
+        imgPath,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+      <if test="link != null" >
+        link,
+      </if>
+      <if test="countNum != null" >
+        countNum,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+
+      <if test="num != null" >
+        #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="militaryName != null" >
+        #{militaryName,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="imgPath != null" >
+        #{imgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null" >
+        #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="countNum != null" >
+        #{countNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.daicy.military.model.Agency" >
+    update m_agency
+    <set >
+      <if test="num != null" >
+        num = #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="militaryName != null" >
+        militaryName = #{militaryName,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="imgPath != null" >
+        imgPath = #{imgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null" >
+        link = #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="countNum != null" >
+        countNum = #{countNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.daicy.military.model.Agency" >
+    update m_agency
+    set num = #{num,jdbcType=VARCHAR},
+      militaryName = #{militaryName,jdbcType=VARCHAR},
+      level = #{level,jdbcType=VARCHAR},
+      imgPath = #{imgPath,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      link = #{link,jdbcType=VARCHAR},
+      countNum = #{countNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      updateTime = #{updateTime,jdbcType=VARCHAR},
+      updateTime = #{updateTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateStatus">
+    update m_agency
+    set
+    status = #{status,jdbcType=INTEGER} where id IN
+    <foreach collection="array" item="id" index="index"
+             open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </update>
+</mapper>

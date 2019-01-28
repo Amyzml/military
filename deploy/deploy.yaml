@@ -1,0 +1,51 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+   name: military
+   namespace: daicy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        service: military
+    spec:
+      containers:
+        - image: hub.daicy.net/cmi/military:1.0
+          imagePullPolicy: Always
+          name: military
+          resources:
+            limits:
+              memory: 600Mi
+            requests:
+              memory: 600Mi
+          ports:
+            - containerPort: 8088
+          livenessProbe:
+            httpGet:
+              path: /military/actuator/health
+              port: 8088
+            initialDelaySeconds: 20
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /military/actuator/health
+              port: 8088
+            initialDelaySeconds: 20
+            timeoutSeconds: 10
+          volumeMounts:
+            - name: host-etc-localtime
+              mountPath: /etc/localtime
+            - name: service-conf
+              mountPath: /opt/config/application.properties
+              subPath: application.properties
+      volumes:
+        - name: host-etc-localtime
+          hostPath:
+            path: /etc/localtime
+        - name: service-conf
+          configMap:
+            name: military-application.properties
+            items:
+              - key: application-prod.properties
+                path: application.properties

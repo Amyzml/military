@@ -1,0 +1,38 @@
+allow:
+  - /user/auth/login
+  - /user/auth/logout
+policy:
+  - path: /demo/{id}
+    method: get
+    roles:
+        - sysadmin
+        - projectmanager
+        - user
+
+  - path: /demo
+    method: get
+    roles:
+        - sysadmin
+        - projectmanager
+        - user
+
+  - path: /demo
+    method: put
+    roles:
+        - sysadmin
+        - projectmanager
+        - user
+
+  - path: /demo
+    method: post
+    roles:
+        - sysadmin
+        - projectmanager
+        - user
+
+  - path: /demo/{id}
+    method: delete
+    roles:
+        - sysadmin
+        - projectmanager
+        - user
